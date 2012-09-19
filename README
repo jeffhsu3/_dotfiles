@@ -1,0 +1,5 @@
+Configuration files based Sontek's http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
+
+git clone git@github.com:jeffhsu3/_dotfiles.git
+cd _dotfiles
+bash install.sh
