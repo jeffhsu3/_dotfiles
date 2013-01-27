@@ -1,4 +1,3 @@
-set nocompatible
 set foldmethod=indent
 set foldlevel=99
 
@@ -15,6 +14,7 @@ call pathogen#helptags()
 " =================================
 set term=builtin_ansi
 syntax on
+set t_Co=256
 colorscheme railscasts
 filetype plugin indent on
 set number
@@ -67,6 +67,8 @@ set completeopt=menuone,longest,preview
 """""""" mappings and commands
 map <leader>n :NERDTreeToggle<CR>
 map <F5> :set hls!<bar>set hls?<CR>
+
+let g:pyflakes_use_quickfix = 0
 
 " 
 :command! W w
