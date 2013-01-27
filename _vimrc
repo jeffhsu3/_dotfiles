@@ -1,3 +1,4 @@
+set t_Co=256
 set foldmethod=indent
 set foldlevel=99
 
@@ -14,8 +15,8 @@ call pathogen#helptags()
 " =================================
 set term=builtin_ansi
 syntax on
-set t_Co=256
-colorscheme railscasts
+set background=dark
+colorscheme tomorrow 
 filetype plugin indent on
 set number
 set autoindent
