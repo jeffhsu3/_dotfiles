@@ -1,6 +1,3 @@
-set t_Co=256
-set foldmethod=indent
-set foldlevel=99
 
 " =================================
 " Pathogen
@@ -13,26 +10,122 @@ call pathogen#helptags()
 " =================================
 " Basic Settings
 " =================================
-set term=builtin_ansi
+" no vi-compatible
+set nocompatible
+
+" allow plugins by file type
+filetype plugin on
+filetype indent on
+
+" tabs and spacing
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" tab length exceptions on some file types
+autocmd FileType html setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType htmldjango setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
+
+" always show status bar
+set ls=2
+
+" searh
+set incsearch
+set hlsearch
+
 syntax on
+
+set nu
+
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+if (&term =~? 'mlterm\|xterm\|xterm-256\|screen-256') || has('nvim')
+	let &t_Co = 256
+    colorscheme fisa
+else
+    colorscheme delek
+endif
+
+
+" set the needed directories if they don't exist
+if !isdirectory(&backupdir)
+    call mkdir(&backupdir, "p")
+endif
+if !isdirectory(&directory)
+    call mkdir(&directory, "p")
+endif
+if !isdirectory(&undodir)
+    call mkdir(&undodir, "p")
+endif 
+set scrolloff=3
+
+set foldmethod=indent
+set foldlevel=99
+set term=builtin_ansi
 set background=dark
-colorscheme vibrantink
-filetype plugin indent on
-set number
+
+set completeopt-=preview
+
+set wildmode=list:longest
+set directory=~/.vim/dirs/tmp     " directory to place swap files in
+set backup                        " make backup files
+set backupdir=~/.vim/dirs/backups " where to put backup files
+let mapleader=","
+
+" NERDTREE -----------------------------
+map <leader>n :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+""" jedi-vim settings
+" Go to definition
+let g:jedi#goto_command = ',d'
+" Find ocurrences
+let g:jedi#usages_command = ',o'
+" Find assignments
+let g:jedi#goto_assignments_command = ',a'
+" Go to definition in new tab
+nmap ,D :tab split<CR>:call jedi#goto()<CR>
+
+" NeoComplCache ------------------------------
+
+" most of them not documented because I'm not sure how they work
+" (docs aren't good, had to do a lot of trial and error to make 
+" it play nice)
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_ignore_case = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_fuzzy_completion = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_fuzzy_completion_start_length = 1
+let g:neocomplcache_auto_completion_start_length = 1
+let g:neocomplcache_manual_completion_start_length = 1
+let g:neocomplcache_min_keyword_length = 1
+let g:neocomplcache_min_syntax_length = 1
+" complete with workds from any opened file
+let g:neocomplcache_same_filetype_lists = {}
+let g:neocomplcache_same_filetype_lists._ = '_'
+
+
+
 set autoindent
 set smarttab
 set textwidth=79
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-set expandtab
 set mouse=nv
 set ignorecase
 set foldenable
 set showmatch
 set bs=2
 set autoread
-set incsearch
 set splitright
 set splitbelow
 set ignorecase
@@ -45,53 +138,18 @@ set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 
-let mapleader=","
-
-
-" Python: 4 spaces
-
-
-let g:miniBufExplMapWindowNavVim=1
-let g:miniBufExplMapWindowNavArrows=1
-let g:miniBufExplMapCTabSwitchBufs=1
-let g:miniBufExplModSelTarget=1
-
-let g:pylint_onwrite=0
 
 let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 map T :TaskList<CR>
 map P :TlistToggle<CR>
 
-au FileType python set omnifunc=jedi#completions
-let g:SuperTabDefaultCompletionType = "context"
-set completeopt=menuone,longest,preview
-"""""""" mappings and commands
-map <leader>n :NERDTreeToggle<CR>
 map <F5> :set hls!<bar>set hls?<CR>
 
 let g:pyflakes_use_quickfix = 0
 
-"  
+
+" 
 :command! W w
 :command! Wq wq
 :command! Q q
 :command! Wqa wqa
-
-" Jedi
-let g:jedi#use_tabs_not_buffers = 1
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#popup_select_first = 0
-let g:jedi#show_call_signatures = "1"
-
-
-" Add the virtualenv's site-packages to vim path
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, project_base_dir)
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
