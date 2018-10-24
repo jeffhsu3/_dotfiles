@@ -16,7 +16,7 @@ call pathogen#helptags()
 set term=builtin_ansi
 syntax on
 set background=dark
-colorscheme tomorrow 
+colorscheme vibrantink
 filetype plugin indent on
 set number
 set autoindent
@@ -62,7 +62,7 @@ let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 map T :TaskList<CR>
 map P :TlistToggle<CR>
 
-au FileType python set omnifunc=pythoncomplete#Complete
+au FileType python set omnifunc=jedi#completions
 let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
 """""""" mappings and commands
@@ -71,11 +71,18 @@ map <F5> :set hls!<bar>set hls?<CR>
 
 let g:pyflakes_use_quickfix = 0
 
-" 
+"  
 :command! W w
 :command! Wq wq
 :command! Q q
 :command! Wqa wqa
+
+" Jedi
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#popup_select_first = 0
+let g:jedi#show_call_signatures = "1"
+
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
