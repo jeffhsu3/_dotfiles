@@ -35,3 +35,6 @@
 [submodule "_vim/bundle/vim-airline"]
 	path = _vim/bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
+[submodule "_vim/bundle/neocomplete"]
+	path = _vim/bundle/neocomplete
+	url = https://github.com/Shougo/neocomplete.vim.git
