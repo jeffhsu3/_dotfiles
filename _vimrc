@@ -1,4 +1,3 @@
-
 " =================================
 " Pathogen
 " =================================
@@ -35,10 +34,17 @@ set ls=2
 set incsearch
 set hlsearch
 
+" syntax highlight on
 syntax on
 
+" show line numbers
 set nu
 
+
+map tn :tabn<CR>
+map tp :tabp<CR>
+map tm :tabm
+map tt :tabne
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -46,13 +52,24 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+set wildmode=list:longest
+
+
+
 
 if (&term =~? 'mlterm\|xterm\|xterm-256\|screen-256') || has('nvim')
 	let &t_Co = 256
     colorscheme fisa
 else
-    colorscheme delek
+    colorscheme fisa
 endif
+
+set directory=~/.vim/dirs/tmp     " directory to place swap files in
+set backup                        " make backup files
+set backupdir=~/.vim/dirs/backups " where to put backup files
+set undofile                      " persistent undos - undo after you re-open the file
+set undodir=~/.vim/dirs/undos
+set viminfo+=n~/.vim/dirs/viminfo
 
 
 " set the needed directories if they don't exist
@@ -93,6 +110,8 @@ let g:jedi#usages_command = ',o'
 let g:jedi#goto_assignments_command = ',a'
 " Go to definition in new tab
 nmap ,D :tab split<CR>:call jedi#goto()<CR>
+let g:jedi#popup_on_dot = 0
+
 
 " NeoComplCache ------------------------------
 
@@ -115,6 +134,11 @@ let g:neocomplcache_min_syntax_length = 1
 let g:neocomplcache_same_filetype_lists = {}
 let g:neocomplcache_same_filetype_lists._ = '_'
 
+" Syntastic
+
+nmap <leader>e :Errors<CR>
+let g:syntastic_check_on_open = 1
+let g:syntastic_enable_signs = 0
 
 
 set autoindent
@@ -129,14 +153,9 @@ set autoread
 set splitright
 set splitbelow
 set ignorecase
-set title   " Show title in console title bar
-set wildmenu " Menu completion in command mode on <Tab>
-set wildmode=full       " <Tab> cycles between all matching choices
+
 
 " Ignore these files when completing
-set wildignore+=*.o,*.obj,.git,*.pyc
-set wildignore+=eggs/**
-set wildignore+=*.egg-info/**
 
 
 let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
@@ -153,3 +172,5 @@ let g:pyflakes_use_quickfix = 0
 :command! Wq wq
 :command! Q q
 :command! Wqa wqa
+
+nnoremap <space> za

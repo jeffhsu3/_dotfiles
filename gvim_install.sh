@@ -42,6 +42,9 @@ fi
 git submodule update --init --recursive
 git submodule foreach --recursive git pull origin master
 wget -N -P ./_vim/colors https://raw.githubusercontent.com/fisadev/fisa-vim-colorscheme/master/colors/fisa.vim
+mkdir _vim/dirs/
+mkdir _vim/dirs/tmp/
+mkdir _vim/dirs/backups/
 
 
 # setup command-t
